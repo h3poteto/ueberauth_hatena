@@ -1,21 +1,59 @@
-# UeberauthHatena
-
-**TODO: Add description**
+# ÜberauthHatena
+> Hatena strategy for Überauth.
 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ueberauth_hatena` to your list of dependencies in `mix.exs`:
+Add `:ueberauth_hatena` to list of your dependencies in `mix.exs`.
 
 ```elixir
 def deps do
-  [
-    {:ueberauth_hatena, "~> 0.1.0"}
-  ]
+  [{:ueberauth_hatena, "~> 0.1"},
+   {:oauth, github: "tim/erlang-oauth"}]
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/ueberauth_hatena](https://hexdocs.pm/ueberauth_hatena).
+## Usage
+1. Create your OAuth application at [Hatena Developer Center](https://www.hatena.ne.jp/oauth/develop).
+2. Add Hatena to your Ueberauth configuration.
+    ```elixir
+    config :ueberauth, Ueberauth,
+      providers: [
+        hatena: {Ueberauth.Strategy.Hatena, []}
+      ]
+    ```
+3. Add consumer key and secret from your OAuth application. And set scope the application.
+    ```elixir
+    config :ueberauth, Ueberauth.Strategy.Hatena.OAuth,
+      consumer_key: System.get_env("HATENA_CONSUMER_KEY"),
+      consumer_secret: System.get_env("HATENA_CONSUMER_SECRET"),
+      scope: "read_public,write_public"
+    ```
+4. Include the Ueberauth plug in your controller. And please implement request method and callback method.
+    ```elixir
+    defmodule MyApp.AuthController do
+      use MyApp.Web, :controller
+      plug Ueberauth
+
+      def request(conn, _params) do
+        ...
+      end
+
+      def callback(conn, _params) do
+        ...
+      end
+    end
+    ```
+5. Create reqeust and callback endpoint your router.
+    ```elixir
+    scope "/auth", MyApp do
+      pipe_through :browser
+
+      get "/:provider", AuthController, :request
+      get "/:provider/callback", AuthController, :callback
+    end
+    ```
+
+For an example implementation see the [Überauth Example application](https://github.com/ueberauth/ueberauth_example).
+
+## License
+The software is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
