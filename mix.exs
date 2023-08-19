@@ -31,7 +31,7 @@ defmodule UeberauthHatena.MixProject do
       {:oauther, "~> 1.1"},
       {:ueberauth, "~> 0.6"},
       {:credo, "~> 1.7.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.30", only: :dev, runtime: false}
     ]
   end
 end
