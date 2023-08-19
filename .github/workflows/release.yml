@@ -1,3 +1,5 @@
+Name: Release
+
 on:
   push:
     tags:
@@ -7,10 +9,13 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out
-        uses: actions/checkout@v3
-
-      - name: Publish to Hex.pm
-        uses: erlangpack/github-action@v3
-        env:
-          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+    - uses: actions/checkout@v3
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: "26.0"
+        elixir-version: "1.15.1" # [Required] Define the Erlang/OTP version
+    - name: Publish
+      env:
+        HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+      run:
+        mix hex.publish --yes
