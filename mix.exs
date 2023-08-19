@@ -4,8 +4,8 @@ defmodule UeberauthHatena.MixProject do
   def project do
     [
       app: :ueberauth_hatena,
-      version: "0.1.0",
-      elixir: "~> 1.5",
+      version: "0.2.0",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: "Hatena strategy  for Ueberauth.",
