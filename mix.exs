@@ -27,7 +27,7 @@ defmodule UeberauthHatena.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 2.0"},
+      {:httpoison, "~> 3.0"},
       {:oauther, "~> 1.1"},
       {:ueberauth, "~> 0.10"},
       {:credo, "~> 1.7.0", only: [:dev, :test], runtime: false},
